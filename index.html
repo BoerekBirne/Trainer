@@ -11,8 +11,8 @@
             --bg-card: #ffffff;
             --text-main: #212529;
             --text-muted: #6c757d;
-            --primary: #2c3e50; /* Dunkles Blau für Seriösität */
-            --accent: #3498db; /* Helles Blau für Interaktion */
+            --primary: #2c3e50;
+            --accent: #3498db;
             --success: #27ae60;
             --error: #c0392b;
             --border: #dee2e6;
@@ -70,6 +70,9 @@
             border-radius: 4px;
         }
         .icon-btn:hover { background: rgba(0,0,0,0.05); }
+
+        .header-controls { display: flex; align-items: center; gap: 10px; }
+        .lang-btn { font-size: 0.9rem; font-weight: bold; border: 1px solid var(--border); padding: 5px 10px; border-radius: 4px; }
 
         /* --- SIDE MENU --- */
         #side-menu {
@@ -254,10 +257,13 @@
         <button class="icon-btn" onclick="toggleMenu()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
-        <div class="brand">Physik Trainer Pro</div>
-        <button class="icon-btn" onclick="toggleTheme()">
-            <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-        </button>
+        <div class="brand" id="txt-brand">Physik Trainer Pro</div>
+        <div class="header-controls">
+            <button class="icon-btn lang-btn" onclick="toggleLang()" id="lang-btn">EN</button>
+            <button class="icon-btn" onclick="toggleTheme()">
+                <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+        </div>
     </header>
 
     <nav id="side-menu">
@@ -266,24 +272,24 @@
         </div>
 
         <div class="menu-group">
-            <div class="menu-label">Lernmethoden</div>
-            <button class="menu-item" onclick="startQuiz('mc')">📝 Multiple Choice (20+)</button>
-            <button class="menu-item" onclick="startQuiz('bool')">⚖️ Ja / Nein (20+)</button>
-            <button class="menu-item" onclick="startQuiz('match')">🔗 Formel-Chaos (20+)</button>
-            <button class="menu-item" onclick="startQuiz('fill')">✍️ Lückentext (20+)</button>
+            <div class="menu-label" id="txt-menu1">Lernmethoden</div>
+            <button class="menu-item" onclick="startQuiz('mc')" id="btn-mc">📝 Multiple Choice (20+)</button>
+            <button class="menu-item" onclick="startQuiz('bool')" id="btn-bool">⚖️ Ja / Nein (20+)</button>
+            <button class="menu-item" onclick="startQuiz('match')" id="btn-match">🔗 Formel-Chaos (20+)</button>
+            <button class="menu-item" onclick="startQuiz('fill')" id="btn-fill">✍️ Lückentext (20+)</button>
         </div>
 
         <div class="menu-group">
-            <div class="menu-label">Herausforderung</div>
-            <button class="menu-item" onclick="startQuiz('calc')">🧮 Mathe-Profi (Unendlich)</button>
+            <div class="menu-label" id="txt-menu2">Herausforderung</div>
+            <button class="menu-item" onclick="startQuiz('calc')" id="btn-calc">🧮 Mathe-Profi (Unendlich)</button>
         </div>
     </nav>
 
     <main>
         <div id="start-screen" class="card">
-            <h2>Willkommen zurück.</h2>
-            <p>Wähle im Menü eine Kategorie. Alle Aufgaben basieren auf deinem Physik-Spickzettel. Wir decken ab:</p>
-            <ul style="color: var(--text-muted); font-size: 0.9rem;">
+            <h2 id="txt-welcome-head">Willkommen zurück.</h2>
+            <p id="txt-welcome-body">Wähle im Menü eine Kategorie. Alle Aufgaben basieren auf deinem Physik-Spickzettel. Wir decken ab:</p>
+            <ul style="color: var(--text-muted); font-size: 0.9rem;" id="txt-topics">
                 <li>Das Ohmsche Gesetz (U, R, I)</li>
                 <li>Elektrische Leistung & Energie</li>
                 <li>Reihen- & Parallelschaltung</li>
@@ -313,18 +319,56 @@
         </div>
 
         <div id="result-screen" class="card hidden" style="text-align: center;">
-            <h2>Zusammenfassung</h2>
+            <h2 id="txt-res-head">Zusammenfassung</h2>
             <div style="font-size: 3rem; font-weight: bold; margin: 20px 0; color: var(--primary);" id="final-score">0/20</div>
             <p id="result-message" style="margin-bottom: 30px;"></p>
-            <button class="btn-primary" onclick="location.reload()">Zurück zum Menü</button>
+            <button class="btn-primary" onclick="location.reload()" id="btn-restart">Zurück zum Menü</button>
         </div>
     </main>
 
     <script>
-        // --- DATA POOL ---
+        // --- TRANSLATION DATA ---
+        let currentLang = 'de';
+        
+        const uiText = {
+            de: {
+                brand: "Physik Trainer Pro",
+                menu1: "Lernmethoden", menu2: "Herausforderung",
+                btnMC: "📝 Multiple Choice (20+)", btnBool: "⚖️ Ja / Nein (20+)", 
+                btnMatch: "🔗 Formel-Chaos (20+)", btnFill: "✍️ Lückentext (20+)", btnCalc: "🧮 Mathe-Profi (Unendlich)",
+                search: "Themen filtern...",
+                welcHead: "Willkommen zurück.",
+                welcBody: "Wähle im Menü eine Kategorie. Alle Aufgaben basieren auf deinem Physik-Spickzettel. Wir decken ab:",
+                topics: "<li>Das Ohmsche Gesetz (U, R, I)</li><li>Elektrische Leistung & Energie</li><li>Reihen- & Parallelschaltung</li><li>Spezifischer Widerstand</li>",
+                hint: "Tipp anzeigen", next: "Nächste Frage", check: "Prüfen",
+                resHead: "Zusammenfassung", restart: "Zurück zum Menü",
+                correct: "Richtig!", wrong: "Falsch.",
+                resMsg1: "Perfekt! Du hast alles gemeistert.", resMsg2: "Sehr gut! Du bist fit für die Arbeit.",
+                resMsg3: "Ganz okay, aber übe noch ein bisschen.", resMsg4: "Das war noch nichts. Schau dir den Spickzettel nochmal genau an.",
+                phText: "Antwort...", phNum: "Zahl eingeben...",
+                boolY: "Ja / Richtig", boolN: "Nein / Falsch"
+            },
+            en: {
+                brand: "Physics Trainer Pro",
+                menu1: "Learning Methods", menu2: "Challenge",
+                btnMC: "📝 Multiple Choice (20+)", btnBool: "⚖️ True / False (20+)", 
+                btnMatch: "🔗 Formula Match (20+)", btnFill: "✍️ Fill in the Blank (20+)", btnCalc: "🧮 Math Pro (Infinite)",
+                search: "Filter topics...",
+                welcHead: "Welcome back.",
+                welcBody: "Select a category from the menu. All tasks are based on your physics cheat sheet. We cover:",
+                topics: "<li>Ohm's Law (V, R, I)</li><li>Electric Power & Energy</li><li>Series & Parallel Circuits</li><li>Specific Resistance</li>",
+                hint: "Show Hint", next: "Next Question", check: "Check",
+                resHead: "Summary", restart: "Back to Menu",
+                correct: "Correct!", wrong: "Wrong.",
+                resMsg1: "Perfect! You mastered everything.", resMsg2: "Very good! You are ready for work.",
+                resMsg3: "Okay, but practice a bit more.", resMsg4: "Not quite. Check the cheat sheet again.",
+                phText: "Answer...", phNum: "Enter number...",
+                boolY: "Yes / True", boolN: "No / False"
+            }
+        };
 
-        // 1. Multiple Choice (Konzepte, Einheiten, Zusammenhänge)
-        const poolMC = [
+        // --- DATA POOL (DEUTSCH) ---
+        const poolMC_de = [
             { q: "Was besagt das Ohmsche Gesetz?", options: ["U = R · I", "U = R / I", "I = R · U", "R = U · I"], a: 0, hint: "Spannung = Widerstand mal Stromstärke." },
             { q: "Welches Formelzeichen steht für die elektrische Ladung?", options: ["Q", "C", "L", "I"], a: 0, hint: "Denke an 'Quantity' oder Coulomb." },
             { q: "In welcher Einheit wird der elektrische Widerstand gemessen?", options: ["Ohm (Ω)", "Volt (V)", "Ampere (A)", "Watt (W)"], a: 0, hint: "Das Symbol sieht aus wie ein Hufeisen." },
@@ -347,8 +391,7 @@
             { q: "Der Querschnitt A eines Leiters wird angegeben in...", options: ["mm²", "m", "cm", "Ω"], a: 0, hint: "Es ist eine Fläche." }
         ];
 
-        // 2. Boolean (Schnelle Fakten)
-        const poolBool = [
+        const poolBool_de = [
             { q: "In der Parallelschaltung ist die Spannung an allen Widerständen gleich.", a: true, hint: "U_ges = U1 = U2" },
             { q: "Die Einheit der elektrischen Spannung ist Watt.", a: false, hint: "Spannung wird in Volt gemessen." },
             { q: "Der Gesamtwiderstand in Reihe ist die Summe der Einzelwiderstände.", a: true, hint: "R_ges = R1 + R2 + ..." },
@@ -371,8 +414,7 @@
             { q: "Bei unterbrochenem Stromkreis fließt trotzdem Strom.", a: false, hint: "Logisch, oder?" }
         ];
 
-        // 3. Formula Matching (Was gehört zusammen?)
-        const poolMatch = [
+        const poolMatch_de = [
             { q: "Gesuchte Größe: U (Spannung)", options: ["R · I", "P · t", "Q / t", "ρ · l"], a: 0 },
             { q: "Gesuchte Größe: P (Leistung)", options: ["U · I", "U / I", "R · t", "E / U"], a: 0 },
             { q: "Gesuchte Größe: R (Widerstand)", options: ["ρ · l / A", "U · I", "P · t", "Q · U"], a: 0 },
@@ -395,8 +437,7 @@
             { q: "Symbol für Querschnitt", options: ["A", "Q", "d", "V"], a: 0 }
         ];
 
-        // 4. Lückentext (Strings)
-        const poolFill = [
+        const poolFill_de = [
             { q: "Das Ohmsche Gesetz lautet U = R · ...", a: "I", hint: "Stromstärke" },
             { q: "Die Einheit der Spannung ist ...", a: "Volt", hint: "V" },
             { q: "Bei einer ...schaltung ist die Spannung überall gleich.", a: "Parallel", hint: "Gegenteil von Reihe" },
@@ -419,54 +460,142 @@
             { q: "Wenn R steigt und U gleich bleibt, wird I ...", a: "kleiner", hint: "Sinkt oder steigt?" }
         ];
 
+        // --- DATA POOL (ENGLISH) ---
+        const poolMC_en = [
+            { q: "What does Ohm's Law state?", options: ["U = R · I", "U = R / I", "I = R · U", "R = U · I"], a: 0, hint: "Voltage = Resistance times Current." },
+            { q: "Which symbol stands for electric charge?", options: ["Q", "C", "L", "I"], a: 0, hint: "Think of 'Quantity' or Coulomb." },
+            { q: "In which unit is electrical resistance measured?", options: ["Ohm (Ω)", "Volt (V)", "Ampere (A)", "Watt (W)"], a: 0, hint: "The symbol looks like a horseshoe." },
+            { q: "What applies to current I in a series circuit?", options: ["Is the same everywhere", "Adds up", "Is zero", "Splits up"], a: 0, hint: "There is only one path for electrons." },
+            { q: "How does voltage behave in a parallel circuit?", options: ["Is the same everywhere", "Adds up to total voltage", "Depends on resistance", "Is always 230V"], a: 0, hint: "All components are connected directly to the source." },
+            { q: "The formula P = U · I calculates which quantity?", options: ["Electric Power", "Electric Work", "Resistance", "Voltage"], a: 0, hint: "P stands for Power." },
+            { q: "What is the unit of electrical energy?", options: ["Joule (Ws)", "Watt (W)", "Volt (V)", "Ampere (A)"], a: 0, hint: "Power times time." },
+            { q: "How do you calculate total resistance in series?", options: ["R1 + R2", "1/R1 + 1/R2", "R1 · R2", "R1 - R2"], a: 0, hint: "Just add them." },
+            { q: "What does the symbol 'ρ' (Rho) stand for?", options: ["Specific Resistance (Resistivity)", "Density", "Radius", "Power"], a: 0, hint: "Material constant for resistance." },
+            { q: "Which quantity is measured in Ampere (A)?", options: ["Current", "Voltage", "Charge", "Energy"], a: 0, hint: "The flow of electrons." },
+            { q: "What is the formula for resistance involving wire length?", options: ["R = ρ · l / A", "R = ρ · A / l", "R = l · A / ρ", "R = U / P"], a: 0, hint: "Longer = more resistance. Thicker = less resistance." },
+            { q: "What happens to total resistance in parallel?", options: ["It becomes smaller than the smallest single resistor", "It adds up", "It doubles", "It stays the same"], a: 0, hint: "More paths mean easier flow." },
+            { q: "The formula I = Q / t describes...", options: ["Current as charge per time", "Voltage as energy per charge", "Power as work per time", "Resistance"], a: 0, hint: "How many electrons flow per second?" },
+            { q: "What is 1 kΩ in Ohm?", options: ["1000 Ω", "100 Ω", "10 Ω", "10000 Ω"], a: 0, hint: "k stands for Kilo." },
+            { q: "Which formula for power is correct?", options: ["P = I² · R", "P = U / R", "P = R / I²", "P = U · R"], a: 0, hint: "Substitute U=R·I into P=U·I." },
+            { q: "U = P / I is a rearrangement of...", options: ["Power formula", "Resistance formula", "Energy formula", "Charge formula"], a: 0, hint: "P = U · I solved for U." },
+            { q: "What does 't' stand for in the formulas?", options: ["Time", "Temperature", "Tone", "Tesla"], a: 0, hint: "Time (in seconds)." },
+            { q: "What is the formula for electrical work?", options: ["E = P · t", "E = U / t", "E = R · I", "E = Q / U"], a: 0, hint: "Energy is power over time." },
+            { q: "In a series circuit of two identical lamps...", options: ["Voltage splits between both", "Both shine brighter than one alone", "Different current flows", "Voltage is the same everywhere"], a: 0, hint: "U_total = U1 + U2." },
+            { q: "The cross-section A of a conductor is given in...", options: ["mm²", "m", "cm", "Ω"], a: 0, hint: "It is an area." }
+        ];
+
+        const poolBool_en = [
+            { q: "In a parallel circuit, the voltage is the same across all resistors.", a: true, hint: "U_total = U1 = U2" },
+            { q: "The unit of electrical voltage is Watt.", a: false, hint: "Voltage is measured in Volts." },
+            { q: "Total resistance in series is the sum of individual resistors.", a: true, hint: "R_total = R1 + R2 + ..." },
+            { q: "Current is measured in Volts.", a: false, hint: "Ampere is correct." },
+            { q: "Electrical work E is calculated as Power times Time.", a: true, hint: "E = P · t" },
+            { q: "A thicker wire (larger A) has a higher resistance.", a: false, hint: "More space for electrons = less resistance." },
+            { q: "Copper has a specific resistance.", a: true, hint: "Every material conducts differently." },
+            { q: "I = U / R is a form of Ohm's Law.", a: true, hint: "Yes, solved for I." },
+            { q: "In a series circuit, currents add up.", a: false, hint: "Current must go through everywhere." },
+            { q: "P = U² / R is a correct power formula.", a: true, hint: "Derived by substitution." },
+            { q: "Electric charge has the symbol Q.", a: true, hint: "Correct." },
+            { q: "If you increase voltage (with constant R), current decreases.", a: false, hint: "More pressure (U) = more flow (I)." },
+            { q: "1 Watt-second (Ws) equals 1 Joule.", a: true, hint: "That is the definition." },
+            { q: "The reciprocal of total resistance in parallel is the sum of reciprocals.", a: true, hint: "1/R_tot = 1/R1 + 1/R2" },
+            { q: "Length of the conductor has no influence on resistance.", a: false, hint: "Longer means harder for electrons." },
+            { q: "A voltmeter is always connected in series.", a: false, hint: "Voltage is measured in parallel." },
+            { q: "An ammeter is connected in series.", a: true, hint: "Current must flow through the meter." },
+            { q: "E = U · Q is a formula for energy.", a: true, hint: "See cheat sheet." },
+            { q: "Specific resistance is given in Ωm or Ωmm²/m.", a: true, hint: "Material dependent." },
+            { q: "Current flows even if the circuit is broken.", a: false, hint: "Logical, right?" }
+        ];
+
+        const poolMatch_en = [
+            { q: "Find: U (Voltage)", options: ["R · I", "P · t", "Q / t", "ρ · l"], a: 0 },
+            { q: "Find: P (Power)", options: ["U · I", "U / I", "R · t", "E / U"], a: 0 },
+            { q: "Find: R (Resistance)", options: ["ρ · l / A", "U · I", "P · t", "Q · U"], a: 0 },
+            { q: "Find: E (Energy)", options: ["P · t", "U / I", "R / t", "I / U"], a: 0 },
+            { q: "Series: U_total", options: ["U1 + U2", "U1 = U2", "U1 · U2", "U1 / U2"], a: 0 },
+            { q: "Parallel: I_total", options: ["I1 + I2", "I1 = I2", "I1 · I2", "I1 - I2"], a: 0 },
+            { q: "Find: I (Current)", options: ["U / R", "R / U", "P · U", "E · t"], a: 0 },
+            { q: "Formula: P using R and I", options: ["I² · R", "U² · R", "R / I", "I / R"], a: 0 },
+            { q: "Formula: P using U and R", options: ["U² / R", "U · R", "R / U", "U² · I"], a: 0 },
+            { q: "Formula: I using Q and t", options: ["Q / t", "Q · t", "t / Q", "Q + t"], a: 0 },
+            { q: "Formula: U using E and Q", options: ["E / Q", "E · Q", "Q / E", "E + Q"], a: 0 },
+            { q: "Series: R_total", options: ["R1 + R2", "1/R1 + 1/R2", "R1 · R2", "R1 / R2"], a: 0 },
+            { q: "Parallel: U_total", options: ["U1 = U2", "U1 + U2", "U1 / U2", "0"], a: 0 },
+            { q: "Series: I_total", options: ["I1 = I2", "I1 + I2", "I1 / I2", "I1 · I2"], a: 0 },
+            { q: "Unit: Electric Charge", options: ["Coulomb (As)", "Watt", "Volt", "Hertz"], a: 0 },
+            { q: "Unit: Specific Resistance", options: ["Ω · mm² / m", "Ω / m", "A · m", "V / m"], a: 0 },
+            { q: "Calc: Time t from I and Q", options: ["Q / I", "Q · I", "I / Q", "Q²"], a: 0 },
+            { q: "Calc: R from P and I", options: ["P / I²", "P · I", "I / P", "P²"], a: 0 },
+            { q: "Calc: U from P and R", options: ["√(P · R)", "P · R", "P / R", "R²"], a: 0 },
+            { q: "Symbol for Cross-section", options: ["A", "Q", "d", "V"], a: 0 }
+        ];
+
+        const poolFill_en = [
+            { q: "Ohm's Law states U = R · ...", a: "I", hint: "Current" },
+            { q: "The unit of voltage is ...", a: "Volt", hint: "V" },
+            { q: "In a ... circuit, voltage is the same everywhere.", a: "Parallel", hint: "Opposite of series" },
+            { q: "Electric Power P is measured in the unit ...", a: "Watt", hint: "James ..." },
+            { q: "R = ρ · l / ...", a: "A", hint: "Cross-sectional area" },
+            { q: "In a series circuit, resistances ...", a: "add", hint: "Sum up" },
+            { q: "Symbol for time is ...", a: "t", hint: "Lowercase" },
+            { q: "Energy E = P · ...", a: "t", hint: "Time" },
+            { q: "Current I = ... / R", a: "U", hint: "Voltage" },
+            { q: "The unit for resistance is ...", a: "Ohm", hint: "Ω" },
+            { q: "U_total = U1 + U2 applies to the ... circuit.", a: "Series", hint: "Not parallel" },
+            { q: "I_total = I1 + I2 applies to the ... circuit.", a: "Parallel", hint: "Currents split" },
+            { q: "The symbol for electrical work is ...", a: "E", hint: "Or W (Energy)" },
+            { q: "Specific resistance is abbreviated with the letter ...", a: "Rho", hint: "Greek letter" },
+            { q: "Charge Q has the unit ...", a: "Coulomb", hint: "Or As" },
+            { q: "A voltmeter measures ...", a: "Voltage", hint: "Quantity U" },
+            { q: "1000 Watts is one ...", a: "Kilowatt", hint: "kW" },
+            { q: "P = U · ...", a: "I", hint: "Current" },
+            { q: "R = U / ...", a: "I", hint: "Current" },
+            { q: "If R increases and U stays same, I becomes ...", a: "smaller", hint: "Decreases" }
+        ];
+
 
         // 5. COMPLEX CALCULATOR GENERATOR
-        // Generiert endlose Mathe-Aufgaben
         function generateMathProblem() {
             const types = ['ohm', 'power', 'series', 'parallel', 'wire', 'energy'];
             const type = types[Math.floor(Math.random() * types.length)];
             let qText = "", correctVal = 0, unit = "", hintText = "";
+            const isEn = currentLang === 'en';
 
             const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
             const fix = (n) => parseFloat(n.toFixed(2));
 
             if (type === 'ohm') {
-                // U = R * I
                 const missing = Math.random() < 0.33 ? 'U' : (Math.random() < 0.5 ? 'R' : 'I');
                 const R = rand(5, 100);
                 const I = rand(1, 10);
                 const U = R * I;
                 
                 if(missing === 'U') {
-                    qText = `Berechne die Spannung U, wenn R = ${R} Ω und I = ${I} A.`;
+                    qText = isEn ? `Calculate voltage U, given R = ${R} Ω and I = ${I} A.` : `Berechne die Spannung U, wenn R = ${R} Ω und I = ${I} A.`;
                     correctVal = U; unit = "V"; hintText = "U = R · I";
                 } else if (missing === 'R') {
-                    qText = `Berechne den Widerstand R, wenn U = ${U} V und I = ${I} A.`;
+                    qText = isEn ? `Calculate resistance R, given U = ${U} V and I = ${I} A.` : `Berechne den Widerstand R, wenn U = ${U} V und I = ${I} A.`;
                     correctVal = R; unit = "Ω"; hintText = "R = U / I";
                 } else {
-                    qText = `Berechne die Stromstärke I, wenn U = ${U} V und R = ${R} Ω.`;
+                    qText = isEn ? `Calculate current I, given U = ${U} V and R = ${R} Ω.` : `Berechne die Stromstärke I, wenn U = ${U} V und R = ${R} Ω.`;
                     correctVal = I; unit = "A"; hintText = "I = U / R";
                 }
             } 
             else if (type === 'power') {
-                // P = U * I
                 const U = rand(10, 230);
                 const I = rand(1, 5);
                 const P = U * I;
-                // Variation P = I^2 * R
                 const R = rand(10, 50);
                 
                 const subType = Math.random();
                 if(subType < 0.33) {
-                    qText = `Ein Gerät verbraucht bei ${U} V einen Strom von ${I} A. Berechne die Leistung P.`;
+                    qText = isEn ? `A device uses current ${I} A at ${U} V. Calculate Power P.` : `Ein Gerät verbraucht bei ${U} V einen Strom von ${I} A. Berechne die Leistung P.`;
                     correctVal = P; unit = "W"; hintText = "P = U · I";
                 } else if (subType < 0.66) {
-                    qText = `Ein Widerstand von ${R} Ω wird von ${I} A durchflossen. Berechne die Leistung P.`;
+                    qText = isEn ? `A resistor of ${R} Ω has ${I} A flowing through it. Calculate Power P.` : `Ein Widerstand von ${R} Ω wird von ${I} A durchflossen. Berechne die Leistung P.`;
                     correctVal = I * I * R; unit = "W"; hintText = "P = I² · R";
                 } else {
-                    qText = `Ein Gerät hat 200 W Leistung und läuft bei 50 V. Wie groß ist der Widerstand R?`;
-                    // P = U^2 / R -> R = U^2 / P
-                    // Feste Werte für saubere Zahlen
+                    qText = isEn ? `Device has 200 W power at 50 V. What is the resistance R?` : `Ein Gerät hat 200 W Leistung und läuft bei 50 V. Wie groß ist der Widerstand R?`;
                     const uFix = 50; const pFix = 200;
                     correctVal = (uFix * uFix) / pFix; unit = "Ω"; hintText = "R = U² / P";
                 }
@@ -474,41 +603,32 @@
             else if (type === 'series') {
                 const r1 = rand(10, 50);
                 const r2 = rand(10, 50);
-                qText = `Reihenschaltung: R1 = ${r1} Ω, R2 = ${r2} Ω. Berechne den Gesamtwiderstand.`;
-                correctVal = r1 + r2; unit = "Ω"; hintText = "Einfach addieren.";
+                qText = isEn ? `Series circuit: R1 = ${r1} Ω, R2 = ${r2} Ω. Calculate total resistance.` : `Reihenschaltung: R1 = ${r1} Ω, R2 = ${r2} Ω. Berechne den Gesamtwiderstand.`;
+                correctVal = r1 + r2; unit = "Ω"; hintText = isEn ? "Just add them." : "Einfach addieren.";
             }
             else if (type === 'parallel') {
                 const r1 = rand(10, 60);
                 const r2 = rand(10, 60);
-                qText = `Parallelschaltung: R1 = ${r1} Ω, R2 = ${r2} Ω. Berechne R_ges (auf 2 Stellen runden).`;
-                // 1/Rges = 1/R1 + 1/R2 -> Rges = (R1*R2)/(R1+R2)
+                qText = isEn ? `Parallel circuit: R1 = ${r1} Ω, R2 = ${r2} Ω. Calculate R_total (round to 2 decimals).` : `Parallelschaltung: R1 = ${r1} Ω, R2 = ${r2} Ω. Berechne R_ges (auf 2 Stellen runden).`;
                 correctVal = (r1 * r2) / (r1 + r2);
                 unit = "Ω"; hintText = "R_ges = (R1 · R2) / (R1 + R2)";
             }
             else if (type === 'wire') {
-                // R = rho * l / A
-                const rho = 0.017; // Kupfer ca.
-                const l = rand(50, 500); // Meter
-                const A = rand(1, 4); // mm2
-                qText = `Kupferdraht (ρ ≈ 0.017): Länge l = ${l} m, Querschnitt A = ${A} mm². Berechne R.`;
+                const rho = 0.017;
+                const l = rand(50, 500);
+                const A = rand(1, 4);
+                qText = isEn ? `Copper wire (ρ ≈ 0.017): Length l = ${l} m, Area A = ${A} mm². Calculate R.` : `Kupferdraht (ρ ≈ 0.017): Länge l = ${l} m, Querschnitt A = ${A} mm². Berechne R.`;
                 correctVal = (rho * l) / A;
                 unit = "Ω"; hintText = "R = ρ · l / A";
             }
             else if (type === 'energy') {
-                // E = P * t
                 const P = rand(50, 2000);
-                const t = rand(1, 10); // Stunden
-                qText = `Ein Gerät leistet ${P} Watt für ${t} Stunden. Berechne die Energie in Wattstunden (Wh).`;
+                const t = rand(1, 10);
+                qText = isEn ? `Device runs at ${P} Watts for ${t} hours. Calculate Energy in Wh.` : `Ein Gerät leistet ${P} Watt für ${t} Stunden. Berechne die Energie in Wattstunden (Wh).`;
                 correctVal = P * t; unit = "Wh"; hintText = "E = P · t";
             }
 
-            return {
-                q: qText,
-                a: fix(correctVal),
-                unit: unit,
-                hint: hintText,
-                type: 'calc'
-            };
+            return { q: qText, a: fix(correctVal), unit: unit, hint: hintText, type: 'calc' };
         }
 
 
@@ -527,6 +647,38 @@
             document.body.classList.toggle('dark-mode');
         }
 
+        function toggleLang() {
+            currentLang = currentLang === 'de' ? 'en' : 'de';
+            const btn = document.getElementById('lang-btn');
+            btn.innerText = currentLang === 'de' ? 'EN' : 'DE';
+            
+            // UI Texte updaten
+            const txt = uiText[currentLang];
+            document.getElementById('txt-brand').innerText = txt.brand;
+            document.getElementById('txt-menu1').innerText = txt.menu1;
+            document.getElementById('txt-menu2').innerText = txt.menu2;
+            document.getElementById('btn-mc').innerText = txt.btnMC;
+            document.getElementById('btn-bool').innerText = txt.btnBool;
+            document.getElementById('btn-match').innerText = txt.btnMatch;
+            document.getElementById('btn-fill').innerText = txt.btnFill;
+            document.getElementById('btn-calc').innerText = txt.btnCalc;
+            document.getElementById('search-input').placeholder = txt.search;
+            document.getElementById('txt-welcome-head').innerText = txt.welcHead;
+            document.getElementById('txt-welcome-body').innerText = txt.welcBody;
+            document.getElementById('txt-topics').innerHTML = txt.topics;
+            document.getElementById('hint-btn').innerText = txt.hint;
+            document.getElementById('next-btn').innerText = txt.next;
+            document.getElementById('check-btn').innerText = txt.check;
+            document.getElementById('txt-res-head').innerText = txt.resHead;
+            document.getElementById('btn-restart').innerText = txt.restart;
+
+            // Laufendes Quiz abbrechen bei Sprachwechsel
+            if(!document.getElementById('quiz-interface').classList.contains('hidden')){
+                alert(currentLang === 'de' ? "Sprache geändert. Quiz wird neu gestartet." : "Language changed. Quiz will restart.");
+                location.reload();
+            }
+        }
+
         function filterMenu() {
             const term = document.getElementById('search-input').value.toLowerCase();
             const btns = document.querySelectorAll('.menu-item');
@@ -540,25 +692,29 @@
             currentMode = mode;
             toggleMenu();
             
-            // Vorbereitung
             score = 0;
             currentIndex = 0;
             
-            // Queue füllen
             if(mode === 'calc') {
-                // Generiere 20 frische Aufgaben
                 quizQueue = [];
                 for(let i=0; i<20; i++) quizQueue.push(generateMathProblem());
-                document.getElementById('quiz-category-label').innerText = "Mathe-Profi (Schwer)";
+                document.getElementById('quiz-category-label').innerText = currentLang === 'de' ? "Mathe-Profi (Schwer)" : "Math Pro (Hard)";
             } else {
                 let source = [];
                 let label = "";
-                if(mode === 'mc') { source = poolMC; label = "Multiple Choice"; }
-                if(mode === 'bool') { source = poolBool; label = "Ja / Nein"; }
-                if(mode === 'match') { source = poolMatch; label = "Formel Zuordnung"; }
-                if(mode === 'fill') { source = poolFill; label = "Lückentext"; }
+                // Wähle Pool basierend auf Sprache
+                if(currentLang === 'de') {
+                    if(mode === 'mc') { source = poolMC_de; label = "Multiple Choice"; }
+                    if(mode === 'bool') { source = poolBool_de; label = "Ja / Nein"; }
+                    if(mode === 'match') { source = poolMatch_de; label = "Formel Zuordnung"; }
+                    if(mode === 'fill') { source = poolFill_de; label = "Lückentext"; }
+                } else {
+                    if(mode === 'mc') { source = poolMC_en; label = "Multiple Choice"; }
+                    if(mode === 'bool') { source = poolBool_en; label = "True / False"; }
+                    if(mode === 'match') { source = poolMatch_en; label = "Formula Match"; }
+                    if(mode === 'fill') { source = poolFill_en; label = "Fill in the blank"; }
+                }
                 
-                // Shuffle und nimm 20
                 quizQueue = [...source].sort(() => 0.5 - Math.random()).slice(0, 20);
                 document.getElementById('quiz-category-label').innerText = label;
             }
@@ -578,8 +734,8 @@
             const nextBtn = document.getElementById('next-btn');
             const checkBtn = document.getElementById('check-btn');
             const hintBtn = document.getElementById('hint-btn');
+            const txt = uiText[currentLang];
 
-            // Reset UI
             feedback.style.display = 'none';
             feedback.className = 'feedback-box';
             area.innerHTML = '';
@@ -588,22 +744,13 @@
             hintBtn.disabled = false;
             qEl.innerText = data.q;
 
-            // Progress Update
             const pct = (currentIndex / quizQueue.length) * 100;
             document.getElementById('progress-bar').style.width = pct + "%";
 
-            // Render Inputs
             if (currentMode === 'mc' || currentMode === 'match') {
                 const grid = document.createElement('div');
                 grid.className = 'options-grid';
-                
-                // Optionen mischen für MC, aber nicht für Match wenn es Strings sind? 
-                // Einfachheitshalber: Optionen in Data Object sind fest, wir mappen sie.
-                // data.options enthält Strings. data.a ist der Index der richtigen Lösung.
-                
-                // Wir müssen die Optionen mit ihren originalen Indexen speichern, um zu prüfen
                 let indexedOptions = data.options.map((val, idx) => ({val, idx}));
-                // Mischen
                 indexedOptions.sort(() => 0.5 - Math.random());
 
                 indexedOptions.forEach(opt => {
@@ -621,12 +768,12 @@
                 
                 const btnYes = document.createElement('button');
                 btnYes.className = 'btn-option';
-                btnYes.innerText = "Ja / Richtig";
+                btnYes.innerText = txt.boolY;
                 btnYes.onclick = () => resolveChoice(btnYes, data.a === true, "");
 
                 const btnNo = document.createElement('button');
                 btnNo.className = 'btn-option';
-                btnNo.innerText = "Nein / Falsch";
+                btnNo.innerText = txt.boolN;
                 btnNo.onclick = () => resolveChoice(btnNo, data.a === false, "");
 
                 grid.appendChild(btnYes);
@@ -637,10 +784,9 @@
                 const input = document.createElement('input');
                 input.type = currentMode === 'calc' ? 'number' : 'text';
                 input.className = 'input-field';
-                input.placeholder = currentMode === 'calc' ? 'Zahl eingeben...' : 'Antwort...';
+                input.placeholder = currentMode === 'calc' ? txt.phNum : txt.phText;
                 input.id = 'user-input';
                 
-                // Enter Taste support
                 input.addEventListener("keypress", function(event) {
                     if (event.key === "Enter") checkInputAnswer();
                 });
@@ -651,22 +797,22 @@
         }
 
         function resolveChoice(btnElement, isCorrect, explanation) {
-            // Alle Buttons deaktivieren
             const btns = document.querySelectorAll('.btn-option');
             btns.forEach(b => b.disabled = true);
 
             const feedback = document.getElementById('feedback');
+            const txt = uiText[currentLang];
             feedback.style.display = 'block';
 
             if (isCorrect) {
                 score++;
                 btnElement.classList.add('correct');
-                feedback.innerHTML = `<span style="color:var(--success); font-weight:bold">Richtig!</span> ${explanation}`;
+                feedback.innerHTML = `<span style="color:var(--success); font-weight:bold">${txt.correct}</span> ${explanation}`;
                 feedback.style.border = "1px solid var(--success)";
                 feedback.style.background = "rgba(39, 174, 96, 0.1)";
             } else {
                 btnElement.classList.add('wrong');
-                feedback.innerHTML = `<span style="color:var(--error); font-weight:bold">Falsch.</span> ${explanation}`;
+                feedback.innerHTML = `<span style="color:var(--error); font-weight:bold">${txt.wrong}</span> ${explanation}`;
                 feedback.style.border = "1px solid var(--error)";
                 feedback.style.background = "rgba(192, 57, 43, 0.1)";
             }
@@ -681,16 +827,15 @@
             if(!val) return;
 
             const data = quizQueue[currentIndex];
+            const txt = uiText[currentLang];
             let isCorrect = false;
 
             if (currentMode === 'calc') {
-                // Toleranz von +/- 0.1 oder 5%
-                const numVal = parseFloat(val.replace(',', '.')); // Komma support
+                const numVal = parseFloat(val.replace(',', '.'));
                 const correct = data.a;
                 const tolerance = Math.max(0.1, correct * 0.05);
                 if (Math.abs(numVal - correct) <= tolerance) isCorrect = true;
             } else {
-                // String Vergleich (Lückentext)
                 if (val.toLowerCase() === data.a.toLowerCase()) isCorrect = true;
             }
 
@@ -701,11 +846,11 @@
 
             if(isCorrect) {
                 score++;
-                feedback.innerHTML = `<span style="color:var(--success); font-weight:bold">Richtig!</span>`;
+                feedback.innerHTML = `<span style="color:var(--success); font-weight:bold">${txt.correct}</span>`;
                 feedback.style.border = "1px solid var(--success)";
                 feedback.style.background = "rgba(39, 174, 96, 0.1)";
             } else {
-                feedback.innerHTML = `<span style="color:var(--error); font-weight:bold">Falsch.</span> Lösung: ${data.a} ${data.unit || ''}`;
+                feedback.innerHTML = `<span style="color:var(--error); font-weight:bold">${txt.wrong}</span> Solution: ${data.a} ${data.unit || ''}`;
                 feedback.style.border = "1px solid var(--error)";
                 feedback.style.background = "rgba(192, 57, 43, 0.1)";
             }
@@ -715,7 +860,9 @@
 
         function showHint() {
             const data = quizQueue[currentIndex];
-            alert("Tipp: " + (data.hint || "Kein Tipp verfügbar."));
+            const prefix = currentLang === 'de' ? "Tipp: " : "Hint: ";
+            const noHint = currentLang === 'de' ? "Kein Tipp verfügbar." : "No hint available.";
+            alert(prefix + (data.hint || noHint));
         }
 
         function nextQuestion() {
@@ -734,11 +881,12 @@
             const pct = Math.round((score / quizQueue.length) * 100);
             document.getElementById('final-score').innerText = `${score} / ${quizQueue.length}`;
             
+            const txt = uiText[currentLang];
             let msg = "";
-            if(pct === 100) msg = "Perfekt! Du hast alles gemeistert.";
-            else if(pct >= 80) msg = "Sehr gut! Du bist fit für die Arbeit.";
-            else if(pct >= 50) msg = "Ganz okay, aber übe noch ein bisschen.";
-            else msg = "Das war noch nichts. Schau dir den Spickzettel nochmal genau an.";
+            if(pct === 100) msg = txt.resMsg1;
+            else if(pct >= 80) msg = txt.resMsg2;
+            else if(pct >= 50) msg = txt.resMsg3;
+            else msg = txt.resMsg4;
             
             document.getElementById('result-message').innerText = msg;
         }
